@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool matches(string word, string pattern) {
+        unordered_map<char, char> pToW;
+        unordered_map<char, char> wToP;
+
+        for (int i = 0; i < pattern.size(); i++) {
+            char p = pattern[i];
+            char w = word[i];
+
+            // Pattern character already mapped
+            if (pToW.count(p) && pToW[p] != w) {
+                return false;
+            }
+
+            // Word character already mapped to another pattern character
+            if (wToP.count(w) && wToP[w] != p) {
+                return false;
+            }
+
+            pToW[p] = w;
+            wToP[w] = p;
+        }
+
+        return true;
+    }
+
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string> answer;
+
+        for (string word : words) {
+            if (matches(word, pattern)) {
+                answer.push_back(word);
+            }
+        }
+
+        return answer;
+    }
+};
